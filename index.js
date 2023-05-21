@@ -35,11 +35,49 @@ async function run() {
     const toyCollection = client.db('toySeller').collection('toys')
 
 
-    // app.get('/addtoys', async (req, res) => {
-    //         const cursor = toyCollection.find();
-    //         const result = await cursor.toArray();
-    //         res.send(result);
-    //     })
+
+
+
+
+
+    // const indexKeys = { title: 1, category: 1 }; // Replace field1 and field2 with your actual field names
+    // const indexOptions = { name: "titleCategory" }; // Replace index_name with the desired index name
+    // const result = await toyCollection.createIndex(indexKeys, indexOptions);
+
+
+
+
+
+
+
+
+
+
+    // app.get('/search', (req, res) => {
+    //   const name = req.query.name; // assuming the name parameter is passed as a query parameter
+    
+    //   // Search query using the name parameter
+    //   const query = { name: { $regex: name, $options: 'i' } };
+    
+    //   // Perform the search in your MongoDB collection
+    //   // const db = client.db('mydatabase');
+    //   // const collection = db.collection('mycollection');
+    //   toyCollection.find(query).toArray((err, result) => {
+    //     if (err) {
+    //       console.error(err);
+    //       res.status(500).send('Error searching the database');
+    //       return;
+    //     }
+    
+    //     res.send(result); // Return the search results as JSON
+    //   });
+    // });
+    
+
+
+
+
+
 
 
 
@@ -51,6 +89,17 @@ async function run() {
     const cursor = toyCollection.find().limit(20);
     const result = await cursor.toArray();
     res.send(result);
+  })
+
+  
+  app.get("/search", async (req, res) =>{
+    console.log(req.query.name);
+    let query = {}
+    if(req.query.name){
+      query = {name: req.query.name}
+    }
+    const result = await toyCollection.find(query).toArray()
+    res.send(result)
   })
   
   
